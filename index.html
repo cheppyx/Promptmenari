@@ -1,0 +1,1117 @@
+import { useState, useEffect } from 'react';
+import {
+  User,
+  Music,
+  Camera,
+  Layers,
+  Clipboard,
+  FileJson,
+  Plus,
+  Trash2,
+  List,
+  CloudUpload,
+  Users,
+  Car,
+  Globe,
+  Info
+} from 'lucide-react';
+
+// Fungsi untuk menerjemahkan prompt ke Bahasa Inggris (simulasi)
+const translateToEnglish = (prompt) => {
+  let englishPrompt = prompt;
+  englishPrompt = englishPrompt.replace(/Buat video AI/g, 'Create an AI video');
+  englishPrompt = englishPrompt.replace(/berdurasi/g, 'with a duration of');
+  englishPrompt = englishPrompt.replace(/menampilkan/g, 'showcasing');
+  englishPrompt = englishPrompt.replace(/karakter menari/g, 'characters dancing');
+  englishPrompt = englishPrompt.replace(/Karakter DJ/g, 'DJ Character');
+  englishPrompt = englishPrompt.replace(/dengan set up DJ futuristik/g, 'with a futuristic DJ setup');
+  englishPrompt = englishPrompt.replace(/Peralatan DJ/g, 'DJ Equipment');
+  englishPrompt = englishPrompt.replace(/Meja DJ/g, 'DJ Booth');
+  englishPrompt = englishPrompt.replace(/Peralatan/g, 'Equipment');
+  englishPrompt = englishPrompt.replace(/Latar belakang/g, 'Background');
+  englishPrompt = englishPrompt.replace(/Karakter/g, 'Characters');
+  englishPrompt = englishPrompt.replace(/Nama/g, 'Name');
+  englishPrompt = englishPrompt.replace(/Deskripsi Wajah/g, 'Face Description');
+  englishPrompt = englishPrompt.replace(/Tipe Tubuh/g, 'Body Type');
+  englishPrompt = englishPrompt.replace(/Gaya Rambut/g, 'Hair Style');
+  englishPrompt = englishPrompt.replace(/Aksesori/g, 'Accessories');
+  englishPrompt = englishPrompt.replace(/Pakaian/g, 'Clothing');
+  englishPrompt = englishPrompt.replace(/Gaya Tarian/g, 'Dance Style');
+  englishPrompt = englishPrompt.replace(/Gerakan Tangan Kustom/g, 'Custom Hand Movements');
+  englishPrompt = englishPrompt.replace(/gerakan kaki/g, 'foot movements');
+  englishPrompt = englishPrompt.replace(/Gerakan Kaki Kustom/g, 'Custom Foot Movements');
+  englishPrompt = englishPrompt.replace(/gerakan pinggul/g, 'hip movements');
+  englishPrompt = englishPrompt.replace(/Gerakan Pinggul Kustom/g, 'Custom Hip Movements');
+  englishPrompt = englishPrompt.replace(/gerakan kepala/g, 'head movements');
+  englishPrompt = englishPrompt.replace(/Gerakan Kepala Kustom/g, 'Custom Head Movements');
+  englishPrompt = englishPrompt.replace(/ekspresi wajah/g, 'facial expression');
+  englishPrompt = englishPrompt.replace(/Ekspresi Wajah Kustom/g, 'Custom Facial Expression');
+  englishPrompt = englishPrompt.replace(/Formasi/g, 'Formation');
+  englishPrompt = englishPrompt.replace(/Sinkronisasi/g, 'Synchronization');
+  englishPrompt = englishPrompt.replace(/gerakan tarian/g, 'dance moves');
+  englishPrompt = englishPrompt.replace(/Gerakan Kamera Global/g, 'Global Camera Movements');
+  englishPrompt = englishPrompt.replace(/Efek Visual/g, 'Visual Effects');
+  englishPrompt = englishPrompt.replace(/Total Durasi/g, 'Total Duration');
+  englishPrompt = englishPrompt.replace(/dibagi menjadi/g, 'divided into');
+  englishPrompt = englishPrompt.replace(/segmen/g, 'segments');
+  englishPrompt = englishPrompt.replace(/Berikut deskripsi per segmen/g, 'Here is the description per segment');
+  englishPrompt = englishPrompt.replace(/Efek/g, 'Effect');
+  englishPrompt = englishPrompt.replace(/Di atas/g, 'On top of');
+  
+  // New camera settings translations
+  englishPrompt = englishPrompt.replace(/Gerakan Kamera: /g, 'Camera Movement: ');
+  englishPrompt = englishPrompt.replace(/Sudut Kamera: /g, 'Camera Angle: ');
+  englishPrompt = englishPrompt.replace(/Lensa Kamera: /g, 'Camera Lens: ');
+  englishPrompt = englishPrompt.replace(/Pencahayaan: /g, 'Lighting: ');
+  englishPrompt = englishPrompt.replace(/Gaya menari: /g, 'DJ Dance Style: ');
+  
+  return englishPrompt;
+};
+
+// Main App component
+export default function App() {
+  const [numCharacters, setNumCharacters] = useState(3);
+  const [characters, setCharacters] = useState(
+    [
+      {
+        name: `Karakter 1`,
+        faceDescription: 'Pria, 20-an, rambut cepak cokelat, mata cokelat',
+        bodyType: 'Atletis, tinggi sedang',
+        hairStyle: 'Cepak rapi',
+        accessories: 'Topi baseball hitam, jam tangan perak',
+        clothing: 'Jaket kulit hitam, kaus putih, jeans robek'
+      },
+      {
+        name: `Karakter 2`,
+        faceDescription: 'Wanita, 20-an, rambut panjang pirang bergelombang, mata biru',
+        bodyType: 'Lanset, tinggi',
+        hairStyle: 'Panjang bergelombang',
+        accessories: 'Anting hoop emas, kalung rantai',
+        clothing: 'Crop top merah, celana kargo hijau, sneakers putih'
+      },
+      {
+        name: `Karakter 3`,
+        faceDescription: 'Pria, 30-an, rambut pendek afro, kumis tipis, kulit gelap',
+        bodyType: 'Berisi, pendek',
+        hairStyle: 'Pendek afro',
+        accessories: 'Kacamata hitam, gelang kulit',
+        clothing: 'Hoodie abu-abu, celana jogging, sepatu basket'
+      }
+    ]
+  );
+  
+  const [danceSettings, setDanceSettings] = useState({
+    style: 'Breakdance',
+    formation: '1-by-1 maju',
+    handMoves: 'Waving',
+    footMoves: 'Shuffling',
+    hipMoves: 'Body rolls',
+    headMoves: 'Head nods',
+    facialExpression: 'Serious and confident',
+    synchronization: 'Sempurna (Perfectly Synced)',
+  });
+  
+  const [djCharacter, setDjCharacter] = useState({
+    name: 'DJ RHYTHM',
+    faceDescription: 'Pria, 30-an, brewok rapi, kacamata hitam',
+    clothing: 'Jaket bomber futuristik dengan lampu LED',
+    equipment: 'Meja DJ futuristik dengan turntable holographic, mixer digital, dan banyak lampu LED',
+    position: 'Di tengah penari, di atas panggung kecil',
+    danceStyle: 'Mengangguk santai mengikuti irama'
+  });
+
+  const [hasVehicle, setHasVehicle] = useState(true);
+  const [vehicleDescription, setVehicleDescription] = useState('Mobil sport merah di tengah jalanan kota');
+  const [background, setBackground] = useState('Pesta jalanan malam hari dengan lampu neon dan grafiti');
+  const [visualStyle, setVisualStyle] = useState('realistis sinematik');
+  
+  // State baru untuk pengaturan kamera yang lebih detail
+  const [cameraSettings, setCameraSettings] = useState({
+    movement: 'tracking',
+    angle: 'low angle',
+    lens: 'wide-angle',
+    lighting: 'cinematic'
+  });
+
+  const [visualEffects, setVisualEffects] = useState('LED beat, flash light');
+  const [audioSource, setAudioSource] = useState('Lagu viral TikTok remix dengan beat drop yang keras');
+  
+  const [segments, setSegments] = useState(
+    [...Array(7)].map((_, i) => ({
+      id: i + 1,
+      description: i === 0 ? 'Karakter 1 memulai solo dance dengan gerakan breakdance' : i === 1 ? 'Karakter 2 maju ke depan dan melakukan body rolls' : 'Karakter menari secara acak',
+      danceStyle: i === 0 ? 'Breakdance' : i === 1 ? 'Freestyle' : 'Gaya tarian utama',
+      cameraMovements: i === 0 ? 'tracking' : i === 1 ? 'pan' : 'Gerakan kamera utama',
+      visualEffects: i === 2 ? 'slow motion' : 'Efek visual utama',
+      beatDrop: i === 3 ? true : false,
+    }))
+  );
+
+  const [generatedPrompt, setGeneratedPrompt] = useState(null);
+  const [generatedEnglishPrompt, setGeneratedEnglishPrompt] = useState(null);
+  const [generatedJson, setGeneratedJson] = useState(null);
+  
+  const [message, setMessage] = useState(null);
+  const [activeTab, setActiveTab] = useState('id');
+
+  const showMessage = (msg) => {
+    setMessage(msg);
+    setTimeout(() => setMessage(null), 3000);
+  };
+
+  const generateAllPrompts = () => {
+    const characterPrompts = characters
+      .map(
+        (char) =>
+          `- Nama: ${char.name}, Deskripsi Wajah: ${char.faceDescription || 'Wajah realistis'}, Tipe Tubuh: ${char.bodyType || 'Proporsional'}, Gaya Rambut: ${char.hairStyle || 'Sesuai karakter'}, Aksesori: ${char.accessories || 'Tidak ada'}, Pakaian: ${
+            char.clothing || 'Streetwear modern'
+          }`
+      )
+      .join('\n');
+
+    const djPrompt = `- Karakter DJ: ${djCharacter.name}, Deskripsi Wajah: ${djCharacter.faceDescription}, Pakaian: ${djCharacter.clothing}. Posisi: ${djCharacter.position}. Peralatan DJ: ${djCharacter.equipment}. Gaya menari: ${djCharacter.danceStyle}.`
+
+    const vehiclePrompt = hasVehicle ? `Di atas ${vehicleDescription || 'sebuah mobil dansa futuristik'}. ` : '';
+
+    const mainPrompt = `Buat video AI ${visualStyle} berdurasi 1 menit. Video menampilkan ${numCharacters} karakter menari. Latar belakang: ${background}. ${vehiclePrompt}
+  - Karakter Penari:
+  ${characterPrompts}
+  ${djPrompt}
+  - Gaya Tarian: ${danceSettings.style} dengan sinkronisasi ${danceSettings.synchronization}.
+  - Kontrol Gerakan Global: Tangan (${danceSettings.handMoves}), Kaki (${danceSettings.footMoves}), Pinggul (${danceSettings.hipMoves}), Kepala (${danceSettings.headMoves}). Ekspresi wajah: ${danceSettings.facialExpression}.
+  - Formasi Global: ${danceSettings.formation}.
+  - Sinkronisasi: Musik/audio (${audioSource}) harus sinkron dengan gerakan tarian.
+  - Kamera: Gerakan Kamera: ${cameraSettings.movement}. Sudut Kamera: ${cameraSettings.angle}. Lensa Kamera: ${cameraSettings.lens}. Pencahayaan: ${cameraSettings.lighting}.
+  - Efek Visual Global: ${visualEffects}.
+  - Total Durasi: 1 menit, dibagi menjadi 7 segmen (masing-masing 8 detik).
+
+  Berikut deskripsi per segmen:
+  `;
+
+    const segmentsText = segments
+      .map((s) => `- Segmen ${s.id} (8 detik): ${s.description}. Gaya tari: ${s.danceStyle}. Kamera: ${s.cameraMovements}. Efek: ${s.visualEffects}. ${s.beatDrop ? 'Beat drop sync.' : ''}`)
+      .join('\n');
+
+    const fullPrompt = mainPrompt + segmentsText;
+    setGeneratedPrompt(fullPrompt);
+    setGeneratedEnglishPrompt(translateToEnglish(fullPrompt));
+
+    const jsonOutput = {
+      model: 'Gemini Veo 3 / Google Flow Veo 3',
+      video_duration: '1 minute',
+      segments: 7,
+      segment_duration: '8 seconds',
+      visual_style: visualStyle,
+      background: background,
+      vehicle: hasVehicle ? vehicleDescription : 'none',
+      characters: characters.map((char) => ({
+        name: char.name,
+        face_description: char.faceDescription,
+        body_type: char.bodyType,
+        hair_style: char.hairStyle,
+        accessories: char.accessories,
+        clothing: char.clothing,
+      })),
+      dj_character: djCharacter,
+      dance: {
+        style: danceSettings.style,
+        movements: {
+          hand: danceSettings.handMoves,
+          foot: danceSettings.footMoves,
+          hip: danceSettings.hipMoves,
+          head: danceSettings.headMoves,
+          facialExpression: danceSettings.facialExpression,
+        },
+        formation: danceSettings.formation,
+        synchronization: danceSettings.synchronization,
+      },
+      camera: cameraSettings,
+      effects: visualEffects,
+      audio: audioSource,
+      segment_details: segments.map((s) => ({
+        id: s.id,
+        description: s.description,
+        dance_style: s.danceStyle,
+        camera_movements: s.cameraMovements,
+        visual_effects: s.visualEffects,
+        beat_drop: s.beatDrop,
+      })),
+    };
+    setGeneratedJson(JSON.stringify(jsonOutput, null, 2));
+  };
+
+  const handleAddCharacter = () => {
+    if (numCharacters < 5) {
+      const newCharacter = {
+        name: `Karakter ${numCharacters + 1}`,
+        faceDescription: '',
+        bodyType: '',
+        hairStyle: '',
+        accessories: '',
+        clothing: '',
+      };
+      setCharacters([...characters, newCharacter]);
+      setNumCharacters(numCharacters + 1);
+    }
+  };
+
+  const handleRemoveCharacter = () => {
+    if (numCharacters > 1) {
+      setCharacters(characters.slice(0, -1));
+      setNumCharacters(numCharacters - 1);
+    }
+  };
+
+  const handleCharacterChange = (index, field, value) => {
+    const newCharacters = [...characters];
+    newCharacters[index][field] = value;
+    setCharacters(newCharacters);
+  };
+
+  const handleDanceSettingChange = (field, value) => {
+    setDanceSettings(prev => ({ ...prev, [field]: value }));
+  };
+  
+  const handleCameraSettingChange = (field, value) => {
+    setCameraSettings(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleDjCharacterChange = (field, value) => {
+    setDjCharacter(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSegmentChange = (index, field, value) => {
+    const newSegments = [...segments];
+    newSegments[index][field] = value;
+    setSegments(newSegments);
+  };
+
+  const handleCopyPrompt = () => {
+    let textToCopy;
+    if (activeTab === 'id') {
+      textToCopy = generatedPrompt;
+    } else if (activeTab === 'en') {
+      textToCopy = generatedEnglishPrompt;
+    } else {
+      textToCopy = generatedJson;
+    }
+    navigator.clipboard.writeText(textToCopy).then(() => {
+      showMessage(`Konten ${activeTab === 'id' ? 'Indonesia' : activeTab === 'en' ? 'Inggris' : 'JSON'} berhasil disalin!`);
+    });
+  };
+
+  const handleFaceUpload = (index) => {
+    showMessage(`Fitur ini adalah placeholder. Di sini Anda akan mengunggah foto wajah karakter ${index + 1} untuk dianalisis oleh AI Vision.`);
+  };
+
+  const handleClothingUpload = (index) => {
+    showMessage(`Fitur ini adalah placeholder. Di sini Anda akan mengunggah foto pakaian karakter ${index + 1} untuk dianalisis oleh AI Vision.`);
+  };
+
+  const handleDjPhotoUpload = () => {
+    showMessage('Fitur ini adalah placeholder. Di sini Anda akan mengunggah foto untuk karakter DJ.');
+  };
+  
+  const handleBackgroundUpload = () => {
+    showMessage('Fitur ini adalah placeholder. Anda dapat mengunggah foto background untuk dianalisis oleh AI Vision.');
+  };
+
+  return (
+    <div className="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen p-4 md:p-8 font-sans transition-colors duration-300">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {message && (
+          <div className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-indigo-600 text-white p-4 rounded-full shadow-lg transition-opacity duration-300 z-50">
+            {message}
+          </div>
+        )}
+
+        <h1 className="text-4xl md:text-5xl font-bold text-center mb-6 text-indigo-600 dark:text-indigo-400">
+          GENERATOR BY ASEP N.
+        </h1>
+        <p className="text-center text-lg max-w-2xl mx-auto mb-10 text-gray-600 dark:text-gray-400">
+          Gunakan formulir di bawah ini untuk membuat prompt video tari AI yang detail dan modular untuk Gemini Veo 3, Google Flow Veo 3, dan lainnya.
+        </p>
+
+        {/* --- Karakter Penari --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <User className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Pengaturan Karakter Penari</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Atur hingga 5 karakter penari dengan detail wajah, tubuh, rambut, aksesori, dan pakaian. Gunakan tombol upload untuk mensimulasikan fitur AI Vision yang akan menganalisis foto dan mengisi deskripsi secara otomatis.
+          </p>
+          <div className="ml-auto flex gap-2">
+              <button
+                onClick={handleAddCharacter}
+                className="bg-green-500 text-white p-2 rounded-full shadow-md hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={numCharacters >= 5}
+                title="Tambah Karakter"
+              >
+                <Plus size={20} />
+              </button>
+              <button
+                onClick={handleRemoveCharacter}
+                className="bg-red-500 text-white p-2 rounded-full shadow-md hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={numCharacters <= 1}
+                title="Hapus Karakter"
+              >
+                <Trash2 size={20} />
+              </button>
+            </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {characters.map((char, index) => (
+              <div key={index} className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl space-y-4">
+                <h3 className="text-xl font-semibold">Karakter {index + 1}</h3>
+                <div className="space-y-2">
+                  <label htmlFor={`char-face-${index}`} className="block font-medium">
+                    Deskripsi Wajah
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      id={`char-face-${index}`}
+                      value={char.faceDescription}
+                      onChange={(e) => handleCharacterChange(index, 'faceDescription', e.target.value)}
+                      placeholder="Contoh: Pria Asia, mata cokelat"
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    />
+                    <button
+                      onClick={() => handleFaceUpload(index)}
+                      className="bg-indigo-500 text-white p-3 rounded-lg shadow-md hover:bg-indigo-600 transition-colors"
+                      title="Upload Foto Wajah"
+                    >
+                      <CloudUpload size={20} />
+                    </button>
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor={`char-body-type-${index}`} className="block font-medium">
+                    Tipe Tubuh
+                  </label>
+                  <input
+                    type="text"
+                    id={`char-body-type-${index}`}
+                    value={char.bodyType}
+                    onChange={(e) => handleCharacterChange(index, 'bodyType', e.target.value)}
+                    placeholder="Contoh: atletis, kurus, berisi"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor={`char-hair-style-${index}`} className="block font-medium">
+                    Gaya Rambut
+                  </label>
+                  <input
+                    type="text"
+                    id={`char-hair-style-${index}`}
+                    value={char.hairStyle}
+                    onChange={(e) => handleCharacterChange(index, 'hairStyle', e.target.value)}
+                    placeholder="Contoh: rambut cepak, keriting, bob"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor={`char-accessories-${index}`} className="block font-medium">
+                    Aksesori
+                  </label>
+                  <input
+                    type="text"
+                    id={`char-accessories-${index}`}
+                    value={char.accessories}
+                    onChange={(e) => handleCharacterChange(index, 'accessories', e.target.value)}
+                    placeholder="Contoh: topi baseball, kalung rantai"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <label htmlFor={`char-clothing-${index}`} className="block font-medium">
+                    Deskripsi Pakaian
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      id={`char-clothing-${index}`}
+                      value={char.clothing}
+                      onChange={(e) => handleCharacterChange(index, 'clothing', e.target.value)}
+                      placeholder="Contoh: Jaket kulit hitam, celana cargo"
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                    />
+                    <button
+                      onClick={() => handleClothingUpload(index)}
+                      className="bg-indigo-500 text-white p-3 rounded-lg shadow-md hover:bg-indigo-600 transition-colors"
+                      title="Upload Foto Pakaian"
+                    >
+                      <CloudUpload size={20} />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- Karakter DJ --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <Music className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Karakter DJ</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Tambahkan karakter DJ untuk mengendalikan musik dan suasana. Anda dapat mendeskripsikan penampilan, peralatan, dan posisinya di dalam adegan.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl space-y-4">
+              <h3 className="text-xl font-semibold">Detail DJ</h3>
+              <div className="space-y-2">
+                <label htmlFor="dj-name" className="block font-medium">
+                  Nama DJ
+                </label>
+                <input
+                  type="text"
+                  id="dj-name"
+                  value={djCharacter.name}
+                  onChange={(e) => handleDjCharacterChange('name', e.target.value)}
+                  placeholder="Contoh: DJ RHYTHM"
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="dj-face" className="block font-medium">
+                  Deskripsi Wajah & Pakaian
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    id="dj-face"
+                    value={djCharacter.faceDescription}
+                    onChange={(e) => handleDjCharacterChange('faceDescription', e.target.value)}
+                    placeholder="Contoh: Pria, 30-an, brewok rapi, kacamata hitam"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                  <button
+                    onClick={handleDjPhotoUpload}
+                    className="bg-indigo-500 text-white p-3 rounded-lg shadow-md hover:bg-indigo-600 transition-colors"
+                    title="Upload Foto DJ"
+                  >
+                    <CloudUpload size={20} />
+                  </button>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="dj-clothing" className="block font-medium">
+                  Pakaian
+                </label>
+                <input
+                  type="text"
+                  id="dj-clothing"
+                  value={djCharacter.clothing}
+                  onChange={(e) => handleDjCharacterChange('clothing', e.target.value)}
+                  placeholder="Contoh: Jaket bomber futuristik dengan lampu LED"
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="dj-position" className="block font-medium">
+                  Posisi DJ
+                </label>
+                <select
+                  id="dj-position"
+                  value={djCharacter.position}
+                  onChange={(e) => handleDjCharacterChange('position', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="Di tengah penari, di atas panggung kecil">Di tengah penari</option>
+                  <option value="Di panggung utama, di atas penonton">Di panggung utama</option>
+                  <option value="Di sudut ruangan, mengamati para penari">Di sudut ruangan</option>
+                </select>
+              </div>
+            </div>
+            <div className="bg-gray-50 dark:bg-gray-700 p-6 rounded-xl space-y-4">
+              <h3 className="text-xl font-semibold">Setup & Gaya DJ</h3>
+              <div className="space-y-2">
+                <label htmlFor="dj-equipment" className="block font-medium">
+                  Peralatan DJ
+                </label>
+                <input
+                  type="text"
+                  id="dj-equipment"
+                  value={djCharacter.equipment}
+                  onChange={(e) => handleDjCharacterChange('equipment', e.target.value)}
+                  placeholder="Contoh: Meja DJ futuristik, turntable holographic"
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                />
+              </div>
+              <div className="space-y-2">
+                <label htmlFor="dj-dance-style" className="block font-medium">
+                  Gaya dan Cara Menari DJ
+                </label>
+                <select
+                  id="dj-dance-style"
+                  value={djCharacter.danceStyle}
+                  onChange={(e) => handleDjCharacterChange('danceStyle', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="Mengangguk santai mengikuti irama">Mengangguk santai</option>
+                  <option value="Mengayunkan kepala dan tangan">Mengayunkan kepala dan tangan</option>
+                  <option value="Melompat energik sesekali">Melompat energik</option>
+                  <option value="Memutar tombol dan mengangguk serius">Memutar tombol dan mengangguk</option>
+                  <option value="Kustom">Kustom</option>
+                </select>
+                {djCharacter.danceStyle === 'Kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleDjCharacterChange('danceStyle', e.target.value)}
+                    placeholder="Deskripsi gerakan kustom DJ"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- Tarian & Gerakan --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <Users className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Pengaturan Tarian & Gerakan</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Pilih gaya tarian, formasi, dan sinkronisasi. Anda juga bisa mengatur gerakan tangan, kaki, pinggul, kepala, dan ekspresi wajah secara detail melalui menu pilihan atau input manual.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="dance-style" className="block font-medium mb-2">
+                  Gaya Tarian
+                </label>
+                <select
+                  id="dance-style"
+                  value={danceSettings.style}
+                  onChange={(e) => handleDanceSettingChange('style', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                >
+                  <option value="TikTok dance">TikTok dance</option>
+                  <option value="Freestyle">Freestyle</option>
+                  <option value="synchronized group dance">Synchronized group dance</option>
+                  <option value="Breakdance">Breakdance</option>
+                  <option value="Tradisional modern">Tradisional modern</option>
+                  <option value="Slow motion style">Slow motion style</option>
+                  <option value="Kustom">Kustom</option>
+                </select>
+                {danceSettings.style === 'Kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleDanceSettingChange('style', e.target.value)}
+                    placeholder="Masukkan gaya tarian kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+              <div>
+                <label htmlFor="formation" className="block font-medium mb-2">
+                  Formasi
+                </label>
+                <select
+                  id="formation"
+                  value={danceSettings.formation}
+                  onChange={(e) => handleDanceSettingChange('formation', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                >
+                  <option value="V-shape">V-shape</option>
+                  <option value="Barisan">Barisan</option>
+                  <option value="Melingkar">Melingkar</option>
+                  <option value="1-by-1 maju">1-by-1 maju</option>
+                  <option value="Acak">Acak</option>
+                  <option value="Kustom">Kustom</option>
+                </select>
+                {danceSettings.formation === 'Kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleDanceSettingChange('formation', e.target.value)}
+                    placeholder="Masukkan formasi kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+              <div>
+                <label htmlFor="synchronization" className="block font-medium mb-2">
+                  Sinkronisasi
+                </label>
+                <select
+                  id="synchronization"
+                  value={danceSettings.synchronization}
+                  onChange={(e) => handleDanceSettingChange('synchronization', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                >
+                  <option value="Sempurna (Perfectly Synced)">Sempurna (Perfectly Synced)</option>
+                  <option value="Longgar (Loosely Synced)">Longgar (Loosely Synced)</option>
+                  <option value="Individu (Freestyle)">Individu (Freestyle)</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block font-medium mb-2">
+                  Kontrol Gerakan Detail
+                </label>
+                <div className="grid grid-cols-2 gap-4">
+                  <select
+                    value={danceSettings.handMoves}
+                    onChange={(e) => handleDanceSettingChange('handMoves', e.target.value)}
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    <option value="Mengayun santai">Gerakan Tangan: Mengayun santai</option>
+                    <option value="Waving">Gerakan Tangan: Waving</option>
+                    <option value="Clapping">Gerakan Tangan: Clapping</option>
+                    <option value="Snapping">Gerakan Tangan: Snapping</option>
+                    <option value="Kustom">Gerakan Tangan: Kustom</option>
+                  </select>
+                  {danceSettings.handMoves === 'Kustom' && (
+                    <input
+                      type="text"
+                      value={''}
+                      onChange={(e) => handleDanceSettingChange('handMoves', e.target.value)}
+                      placeholder="Deskripsi tangan kustom"
+                      className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    />
+                  )}
+                  <select
+                    value={danceSettings.footMoves}
+                    onChange={(e) => handleDanceSettingChange('footMoves', e.target.value)}
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    <option value="Footwork ringan">Gerakan Kaki: Footwork ringan</option>
+                    <option value="Shuffling">Gerakan Kaki: Shuffling</option>
+                    <option value="Stomping">Gerakan Kaki: Stomping</option>
+                    <option value="Kustom">Gerakan Kaki: Kustom</option>
+                  </select>
+                  {danceSettings.footMoves === 'Kustom' && (
+                    <input
+                      type="text"
+                      value={''}
+                      onChange={(e) => handleDanceSettingChange('footMoves', e.target.value)}
+                      placeholder="Deskripsi kaki kustom"
+                      className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    />
+                  )}
+                  <select
+                    value={danceSettings.hipMoves}
+                    onChange={(e) => handleDanceSettingChange('hipMoves', e.target.value)}
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    <option value="Gerakan pinggul dinamis">Gerakan Pinggul: Dinamis</option>
+                    <option value="Hip thrusts">Gerakan Pinggul: Hip thrusts</option>
+                    <option value="Body rolls">Gerakan Pinggul: Body rolls</option>
+                    <option value="Kustom">Gerakan Pinggul: Kustom</option>
+                  </select>
+                  {danceSettings.hipMoves === 'Kustom' && (
+                    <input
+                      type="text"
+                      value={''}
+                      onChange={(e) => handleDanceSettingChange('hipMoves', e.target.value)}
+                      placeholder="Deskripsi pinggul kustom"
+                      className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    />
+                  )}
+                  <select
+                    value={danceSettings.headMoves}
+                    onChange={(e) => handleDanceSettingChange('headMoves', e.target.value)}
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    <option value="Mengangguk mengikuti irama">Gerakan Kepala: Mengangguk</option>
+                    <option value="Head nods">Gerakan Kepala: Head nods</option>
+                    <option value="Hair flips">Gerakan Kepala: Hair flips</option>
+                    <option value="Kustom">Gerakan Kepala: Kustom</option>
+                  </select>
+                  {danceSettings.headMoves === 'Kustom' && (
+                    <input
+                      type="text"
+                      value={''}
+                      onChange={(e) => handleDanceSettingChange('headMoves', e.target.value)}
+                      placeholder="Deskripsi kepala kustom"
+                      className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    />
+                  )}
+                  <select
+                    value={danceSettings.facialExpression}
+                    onChange={(e) => handleDanceSettingChange('facialExpression', e.target.value)}
+                    className="w-full col-span-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  >
+                    <option value="Senang dan bersemangat">Ekspresi: Senang dan bersemangat</option>
+                    <option value="Smiling">Ekspresi: Smiling</option>
+                    <option value="Winking">Ekspresi: Winking</option>
+                    <option value="Serious and confident">Ekspresi: Serious and confident</option>
+                    <option value="Playful and goofy">Ekspresi: Playful and goofy</option>
+                    <option value="Kustom">Ekspresi: Kustom</option>
+                  </select>
+                  {danceSettings.facialExpression === 'Kustom' && (
+                    <input
+                      type="text"
+                      value={''}
+                      onChange={(e) => handleDanceSettingChange('facialExpression', e.target.value)}
+                      placeholder="Deskripsi ekspresi kustom"
+                      className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- Lingkungan & Efek --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <Layers className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Lingkungan & Efek</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Pilih latar belakang, gaya visual, gerakan kamera, dan efek visual. Anda bisa menambahkan kendaraan sebagai elemen adegan. <span className="font-bold text-red-500">Penting: Deskripsi latar belakang harus sangat mirip dan autentik dengan referensi gambar yang diunggah.</span>
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="background" className="block font-medium mb-2">
+                  Latar Belakang
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="background"
+                    value={background}
+                    onChange={(e) => setBackground(e.target.value)}
+                    placeholder="Contoh: rooftop malam, pesta jalanan, studio neon"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  />
+                  <button
+                    onClick={handleBackgroundUpload}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-500 text-white p-2 rounded-full hover:bg-indigo-600 transition-colors"
+                    title="Upload Foto Latar Belakang"
+                  >
+                    <CloudUpload size={20} />
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-700 rounded-lg">
+                <Car className="text-gray-500 dark:text-gray-400" size={24} />
+                <label htmlFor="has-vehicle" className="font-medium flex-grow">
+                  Tambahkan Kendaraan?
+                </label>
+                <input
+                  type="checkbox"
+                  id="has-vehicle"
+                  checked={hasVehicle}
+                  onChange={(e) => setHasVehicle(e.target.checked)}
+                  className="w-5 h-5 rounded text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+                />
+              </div>
+              {hasVehicle && (
+                <input
+                  type="text"
+                  value={vehicleDescription}
+                  onChange={(e) => setVehicleDescription(e.target.value)}
+                  placeholder="Deskripsi kendaraan (ex: mobil sport merah, motor gede)"
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                />
+              )}
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="visual-style" className="block font-medium mb-2">
+                  Gaya Visual
+                </label>
+                <select
+                  id="visual-style"
+                  value={visualStyle}
+                  onChange={(e) => setVisualStyle(e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                >
+                  <option value="realistis sinematik">Realistis Sinematik</option>
+                  <option value="animasi">Animasi</option>
+                  <option value="kartun">Kartun</option>
+                  <option value="cyberpunk">Cyberpunk</option>
+                  <option value="retro 90s">Retro 90s</option>
+                </select>
+              </div>
+              <div>
+                <label htmlFor="camera-movements" className="block font-medium mb-2">
+                  Gerakan Kamera
+                </label>
+                <select
+                  id="camera-movement"
+                  value={cameraSettings.movement}
+                  onChange={(e) => handleCameraSettingChange('movement', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="orbit">Orbit</option>
+                  <option value="pan">Pan</option>
+                  <option value="tracking">Tracking</option>
+                  <option value="dolly zoom">Dolly Zoom</option>
+                  <option value="jib shot">Jib Shot</option>
+                  <option value="kustom">Kustom</option>
+                </select>
+                {cameraSettings.movement === 'kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleCameraSettingChange('movement', e.target.value)}
+                    placeholder="Deskripsi gerakan kamera kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+              <div>
+                <label htmlFor="camera-angle" className="block font-medium mb-2">
+                  Sudut Kamera
+                </label>
+                <select
+                  id="camera-angle"
+                  value={cameraSettings.angle}
+                  onChange={(e) => handleCameraSettingChange('angle', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="low angle">Low Angle</option>
+                  <option value="high angle">High Angle</option>
+                  <option value="eye-level">Eye-Level</option>
+                  <option value="dutch angle">Dutch Angle</option>
+                  <option value="kustom">Kustom</option>
+                </select>
+                {cameraSettings.angle === 'kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleCameraSettingChange('angle', e.target.value)}
+                    placeholder="Deskripsi sudut kamera kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+              <div>
+                <label htmlFor="camera-lens" className="block font-medium mb-2">
+                  Lensa Kamera
+                </label>
+                <select
+                  id="camera-lens"
+                  value={cameraSettings.lens}
+                  onChange={(e) => handleCameraSettingChange('lens', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="wide-angle">Wide-Angle</option>
+                  <option value="telephoto">Telephoto</option>
+                  <option value="fisheye">Fisheye</option>
+                  <option value="macro">Macro</option>
+                  <option value="kustom">Kustom</option>
+                </select>
+                {cameraSettings.lens === 'kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleCameraSettingChange('lens', e.target.value)}
+                    placeholder="Deskripsi lensa kamera kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+              <div>
+                <label htmlFor="camera-lighting" className="block font-medium mb-2">
+                  Pencahayaan
+                </label>
+                <select
+                  id="camera-lighting"
+                  value={cameraSettings.lighting}
+                  onChange={(e) => handleCameraSettingChange('lighting', e.target.value)}
+                  className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                >
+                  <option value="cinematic">Cinematic</option>
+                  <option value="neon glow">Neon Glow</option>
+                  <option value="natural sunlight">Natural Sunlight</option>
+                  <option value="low key">Low Key</option>
+                  <option value="kustom">Kustom</option>
+                </select>
+                {cameraSettings.lighting === 'kustom' && (
+                  <input
+                    type="text"
+                    value={''}
+                    onChange={(e) => handleCameraSettingChange('lighting', e.target.value)}
+                    placeholder="Deskripsi pencahayaan kustom"
+                    className="mt-2 w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 transition-colors"
+                  />
+                )}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* --- Audio & Segmentasi --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <Music className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Audio & Segmentasi Video</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Sistem AI akan menyinkronkan aksi tarian dengan audio pilihan. Setiap segmen video (7 segmen x 8 detik) bisa memiliki deskripsi, gaya tari, kamera, dan efek yang berbeda.
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="audio-source" className="block font-medium mb-2">
+                  Sumber Audio
+                </label>
+                <div className="relative">
+                  <input
+                    type="text"
+                    id="audio-source"
+                    value={audioSource}
+                    onChange={(e) => setAudioSource(e.target.value)}
+                    placeholder="Contoh: DJ DUIT, remix TikTok, audio upload"
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors"
+                  />
+                  <button
+                    onClick={() => showMessage('Fitur upload audio akan disematkan di sini.')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-indigo-500 text-white p-2 rounded-full hover:bg-indigo-600 transition-colors"
+                    title="Upload Audio"
+                  >
+                    <CloudUpload size={20} />
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div className="space-y-4">
+              <h3 className="text-xl font-semibold">Segmentasi Otomatis (7x8 detik)</h3>
+              {segments.map((seg, index) => (
+                <div key={seg.id} className="p-4 rounded-lg border border-gray-200 dark:border-gray-700 space-y-2">
+                  <h4 className="font-semibold text-lg">Segmen {seg.id}</h4>
+                  <input
+                    type="text"
+                    value={seg.description}
+                    onChange={(e) => handleSegmentChange(index, 'description', e.target.value)}
+                    placeholder={`Deskripsi umum segmen ${seg.id}`}
+                    className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-2 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                  />
+                  <div className="grid grid-cols-2 gap-2">
+                    <select
+                      value={seg.danceStyle}
+                      onChange={(e) => handleSegmentChange(index, 'danceStyle', e.target.value)}
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    >
+                      <option value="Gaya tarian utama">Gaya Tarian</option>
+                      <option value="TikTok dance">TikTok dance</option>
+                      <option value="Freestyle">Freestyle</option>
+                      <option value="Breakdance">Breakdance</option>
+                    </select>
+                    <select
+                      value={seg.cameraMovements}
+                      onChange={(e) => handleSegmentChange(index, 'cameraMovements', e.target.value)}
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    >
+                      <option value="Gerakan kamera utama">Gerakan Kamera</option>
+                      <option value="orbit">Orbit</option>
+                      <option value="pan">Pan</option>
+                      <option value="zoom in">Zoom In</option>
+                      <option value="tracking">Tracking</option>
+                    </select>
+                    <select
+                      value={seg.visualEffects}
+                      onChange={(e) => handleSegmentChange(index, 'visualEffects', e.target.value)}
+                      className="w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm focus:ring-1 focus:ring-indigo-500 transition-colors"
+                    >
+                      <option value="Efek visual utama">Efek Visual</option>
+                      <option value="confetti">Confetti</option>
+                      <option value="money rain">Money Rain</option>
+                      <option value="slow motion">Slow Motion</option>
+                    </select>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="checkbox"
+                        id={`beat-drop-${index}`}
+                        checked={seg.beatDrop}
+                        onChange={(e) => handleSegmentChange(index, 'beatDrop', e.target.checked)}
+                        className="w-4 h-4 rounded text-indigo-600 dark:text-indigo-400 focus:ring-indigo-500"
+                      />
+                      <label htmlFor={`beat-drop-${index}`} className="font-medium text-sm">
+                        Beat Drop Sync
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* --- Output & Aksi --- */}
+        <section className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 md:p-8 space-y-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex items-center gap-4 border-b pb-4 mb-4 border-gray-200 dark:border-gray-700">
+            <List className="text-indigo-500" size={28} />
+            <h2 className="text-3xl font-bold">Hasil Prompt</h2>
+          </div>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+            Klik tombol "Generate Prompt" untuk menghasilkan prompt dalam tiga format berbeda. Anda bisa menyalin prompt Bahasa Indonesia, Bahasa Inggris, atau format JSON untuk integrasi API.
+          </p>
+          <button
+            onClick={generateAllPrompts}
+            className="w-full bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2 mb-6"
+          >
+            Generate Prompt
+          </button>
+
+          {generatedPrompt && (
+            <>
+              <div className="flex justify-center gap-4 mb-4">
+                <button 
+                  onClick={() => setActiveTab('id')}
+                  className={`py-2 px-6 rounded-full font-semibold transition-colors ${activeTab === 'id' ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}
+                >
+                  <span className="inline md:hidden">ID</span>
+                  <span className="hidden md:inline">Bahasa Indonesia</span>
+                </button>
+                <button 
+                  onClick={() => setActiveTab('en')}
+                  className={`py-2 px-6 rounded-full font-semibold transition-colors ${activeTab === 'en' ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}
+                >
+                  <span className="inline md:hidden">EN</span>
+                  <span className="hidden md:inline">Bahasa Inggris</span>
+                </button>
+                <button 
+                  onClick={() => setActiveTab('json')}
+                  className={`py-2 px-6 rounded-full font-semibold transition-colors ${activeTab === 'json' ? 'bg-indigo-600 text-white' : 'bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600'}`}
+                >
+                  JSON
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <textarea
+                  readOnly
+                  value={
+                    activeTab === 'id' 
+                      ? generatedPrompt 
+                      : activeTab === 'en'
+                        ? generatedEnglishPrompt
+                        : generatedJson
+                  }
+                  className="w-full h-80 bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg p-4 resize-none text-sm font-mono overflow-auto"
+                />
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <button
+                  onClick={handleCopyPrompt}
+                  className="flex-1 bg-indigo-600 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
+                >
+                  <Clipboard size={20} /> Salin Konten
+                </button>
+              </div>
+            </>
+          )}
+        </section>
+      </div>
+    </div>
+  );
+}
+
