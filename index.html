@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Prompt Video AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .bg-gradient-veo {
+            background-image: linear-gradient(to right, #6d28d9, #c026d3, #db2777);
+        }
+        .btn-gradient-blue {
+            background-image: linear-gradient(to right, #3b82f6, #6366f1);
+        }
+        .btn-gradient-green {
+            background-image: linear-gradient(to right, #10b981, #14b8a6);
+        }
+        .btn-gradient-blue:hover, .btn-gradient-green:hover {
+            filter: brightness(1.1);
+        }
+        .select-custom {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='white'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7' /%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 1.5em 1.5em;
+        }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-100 p-4 sm:p-8">
+
+<div id="app" class="max-w-7xl mx-auto">
+    <!-- Header -->
+    <header class="text-center mb-10">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-2 bg-clip-text text-transparent bg-gradient-veo">
+            Generator Prompt Video AI VEO & Flow
+        </h1>
+        <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+            Buat prompt yang sangat detail dan lengkap untuk video DJ viral Anda. Sesuaikan setiap elemen sesuai keinginan.
+        </p>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="grid lg:grid-cols-2 gap-8">
+        <!-- Input Form Card -->
+        <div class="bg-gray-900 rounded-3xl shadow-2xl p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-purple-400">Pengaturan Prompt</h2>
+            <div class="space-y-6">
+
+                <!-- Karakter DJ Section -->
+                <div class="bg-gray-800 p-5 rounded-2xl shadow-inner space-y-4">
+                    <h3 class="text-xl font-semibold text-blue-400">Karakter DJ</h3>
+                    <div>
+                        <label for="djGender" class="block text-sm font-medium text-gray-300 mb-1">Jenis Kelamin</label>
+                        <select id="djGender" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Pria">Pria</option>
+                            <option value="Wanita">Wanita</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="djClothes" class="block text-sm font-medium text-gray-300 mb-1">Pakaian</label>
+                        <select id="djClothes" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Kemeja Batik">Kemeja Batik</option>
+                            <option value="Jaket kulit">Jaket kulit</option>
+                            <option value="Jas rapi">Jas rapi</option>
+                            <option value="Kaos band">Kaos band</option>
+                            <option value="Seragam militer">Seragam militer</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="djHair" class="block text-sm font-medium text-gray-300 mb-1">Gaya Rambut</label>
+                        <select id="djHair" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Rambut pendek">Rambut pendek</option>
+                            <option value="Rambut panjang">Rambut panjang</option>
+                            <option value="Rambut keriting">Rambut keriting</option>
+                            <option value="Botak">Botak</option>
+                            <option value="Janggut">Janggut</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Tarian & Posisi Section -->
+                <div class="bg-gray-800 p-5 rounded-2xl shadow-inner space-y-4">
+                    <h3 class="text-xl font-semibold text-green-400">Tarian & Posisi</h3>
+                    <div>
+                        <label for="djDance" class="block text-sm font-medium text-gray-300 mb-1">Gaya Menari DJ</label>
+                        <select id="djDance" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Enerjik dan penuh semangat">Enerjik dan penuh semangat</option>
+                            <option value="Gerakan tangan yang halus">Gerakan tangan yang halus</option>
+                            <option value="Santai dan mengangguk-angguk">Santai dan mengangguk-angguk</option>
+                            <option value="Berjoget dengan gerakan cepat">Berjoget dengan gerakan cepat</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="djPosition" class="block text-sm font-medium text-gray-300 mb-1">Kontrol Posisi DJ</label>
+                        <select id="djPosition" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Di tengah panggung">Di tengah panggung</option>
+                            <option value="Di sisi kiri panggung">Di sisi kiri panggung</option>
+                            <option value="Di sisi kanan panggung">Di sisi kanan panggung</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Penari Tambahan Section -->
+                <div class="bg-gray-800 p-5 rounded-2xl shadow-inner space-y-4">
+                    <h3 class="text-xl font-semibold text-pink-400">Penari Tambahan</h3>
+                    <div>
+                        <label for="numDancers" class="block text-sm font-medium text-gray-300 mb-1">Jumlah Penari</label>
+                        <input type="number" id="numDancers" min="0" max="3" value="0" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="dancerGender" class="block text-sm font-medium text-gray-300 mb-1">Jenis Kelamin Penari</label>
+                        <select id="dancerGender" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Wanita">Wanita</option>
+                            <option value="Pria">Pria</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dancerDance" class="block text-sm font-medium text-gray-300 mb-1">Gaya Menari Penari</label>
+                        <select id="dancerDance" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Hip-hop">Hip-hop</option>
+                            <option value="Tarian tradisional">Tarian tradisional</option>
+                            <option value="Gerakan kasual">Gerakan kasual</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="dancerPosition" class="block text-sm font-medium text-gray-300 mb-1">Kontrol Posisi Penari</label>
+                        <select id="dancerPosition" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Di depan DJ">Di depan DJ</option>
+                            <option value="Di belakang DJ">Di belakang DJ</option>
+                            <option value="Mengelilingi DJ">Mengelilingi DJ</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Kamera & Latar Belakang Section -->
+                <div class="bg-gray-800 p-5 rounded-2xl shadow-inner space-y-4">
+                    <h3 class="text-xl font-semibold text-yellow-400">Kamera & Latar Belakang</h3>
+                    <div>
+                        <label for="cameraAngle" class="block text-sm font-medium text-gray-300 mb-1">Gaya Kamera</label>
+                        <select id="cameraAngle" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 select-custom">
+                            <option value="Close-up ke wajah DJ">Close-up ke wajah DJ</option>
+                            <option value="Sudut lebar dari atas">Sudut lebar dari atas</option>
+                            <option value="Gerakan kamera dinamis">Gerakan kamera dinamis</option>
+                            <option value="Sudut kamera statis dari depan">Sudut kamera statis dari depan</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="tableText" class="block text-sm font-medium text-gray-300 mb-1">Tulisan di Meja DJ</label>
+                        <input type="text" id="tableText" value="DJ Duit Viral" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label for="backgroundDescription" class="block text-sm font-medium text-gray-300 mb-1">Latar Belakang</label>
+                        <p class="text-xs text-gray-400 mb-2">*Gambar tidak diunggah, hanya deskripsinya yang digunakan.</p>
+                        <textarea id="backgroundDescription" class="w-full p-3 rounded-xl bg-gray-700 text-gray-100 border-gray-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3" placeholder="Deskripsikan latar belakang (contoh: Panggung klub malam dengan neon merah dan asap tebal)"></textarea>
+                        <input type="file" id="backgroundFile" class="w-full text-sm text-gray-300 mt-2 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100">
+                    </div>
+                </div>
+
+                <!-- Generate Button -->
+                <button id="generateBtn" class="w-full py-4 rounded-full text-xl font-bold text-white btn-gradient-blue transition-transform transform hover:scale-105">
+                    Buat Prompt Video!
+                </button>
+            </div>
+        </div>
+
+        <!-- Output Card -->
+        <div class="bg-gray-900 rounded-3xl shadow-2xl p-6 sm:p-8">
+            <h2 class="text-2xl font-bold text-center mb-6 text-green-400">Hasil Prompt</h2>
+            <div id="outputArea" class="space-y-4">
+                <!-- Placeholder when no prompt is generated -->
+                <div id="placeholder" class="text-center text-gray-500 py-16">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-20 w-20 mx-auto mb-4 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m-5 4h8a2 2 0 002-2V7a2 2 0 00-2-2H9a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    <p class="text-lg">Prompt Anda akan muncul di sini setelah Anda membuatnya.</p>
+                </div>
+                
+                <!-- Prompt Tabs (hidden initially) -->
+                <div id="promptTabs" class="hidden">
+                    <div class="flex justify-center space-x-2 mb-4 bg-gray-800 p-2 rounded-xl">
+                        <button class="tab-btn active px-4 py-2 rounded-xl font-bold text-white bg-blue-500 hover:bg-blue-600">Indonesia</button>
+                        <button class="tab-btn px-4 py-2 rounded-xl font-bold text-gray-300 hover:bg-gray-700">English</button>
+                        <button class="tab-btn px-4 py-2 rounded-xl font-bold text-gray-300 hover:bg-gray-700">JSON</button>
+                    </div>
+
+                    <!-- Prompt Content -->
+                    <textarea id="promptOutput" class="w-full h-96 p-4 rounded-2xl bg-gray-700 text-gray-100 border-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"></textarea>
+
+                    <button id="copyBtn" class="w-full mt-4 py-4 rounded-full text-lg font-bold text-white btn-gradient-green transition-transform transform hover:scale-105">
+                        Salin Prompt
+                    </button>
+                    
+                    <div id="successMessage" class="hidden mt-4 p-4 rounded-xl bg-green-500 text-white font-semibold text-center">
+                        Prompt berhasil disalin ke clipboard!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    // DOM Elements
+    const djGender = document.getElementById('djGender');
+    const djClothes = document.getElementById('djClothes');
+    const djHair = document.getElementById('djHair');
+    const djDance = document.getElementById('djDance');
+    const djPosition = document.getElementById('djPosition');
+    const numDancers = document.getElementById('numDancers');
+    const dancerGender = document.getElementById('dancerGender');
+    const dancerDance = document.getElementById('dancerDance');
+    const dancerPosition = document.getElementById('dancerPosition');
+    const cameraAngle = document.getElementById('cameraAngle');
+    const tableText = document.getElementById('tableText');
+    const backgroundDescription = document.getElementById('backgroundDescription');
+    const generateBtn = document.getElementById('generateBtn');
+    const promptOutput = document.getElementById('promptOutput');
+    const placeholder = document.getElementById('placeholder');
+    const promptTabs = document.getElementById('promptTabs');
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const copyBtn = document.getElementById('copyBtn');
+    const successMessage = document.getElementById('successMessage');
+
+    let generatedPrompts = { idn: '', en: '', json: '' };
+    let activeTab = 'idn';
+
+    // Event listener for generate button
+    generateBtn.addEventListener('click', generatePrompt);
+
+    // Event listener for copy button
+    copyBtn.addEventListener('click', () => {
+        promptOutput.select();
+        document.execCommand('copy');
+        successMessage.classList.remove('hidden');
+        setTimeout(() => successMessage.classList.add('hidden'), 3000);
+    });
+
+    // Event listeners for tabs
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => {
+                b.classList.remove('active', 'bg-blue-500', 'hover:bg-blue-600');
+                b.classList.add('text-gray-300', 'hover:bg-gray-700');
+            });
+            btn.classList.add('active', 'bg-blue-500', 'hover:bg-blue-600');
+            btn.classList.remove('text-gray-300', 'hover:bg-gray-700');
+            
+            const tabName = btn.textContent.toLowerCase();
+            if (tabName === 'indonesia') activeTab = 'idn';
+            else if (tabName === 'english') activeTab = 'en';
+            else if (tabName === 'json') activeTab = 'json';
+            
+            promptOutput.value = generatedPrompts[activeTab];
+        });
+    });
+
+    // Function to generate the prompt strings
+    function generatePrompt() {
+        // Show loading state
+        generateBtn.innerHTML = `
+            <div class="flex items-center justify-center">
+                <div class="w-5 h-5 border-2 border-white border-t-2 border-t-transparent rounded-full animate-spin"></div>
+                <span class="ml-2">Membuat Prompt...</span>
+            </div>
+        `;
+        generateBtn.disabled = true;
+
+        setTimeout(() => {
+            const djGenderVal = djGender.value;
+            const djClothesVal = djClothes.value;
+            const djHairVal = djHair.value;
+            const djDanceVal = djDance.value;
+            const djPositionVal = djPosition.value;
+            const numDancersVal = numDancers.value;
+            const dancerGenderVal = dancerGender.value;
+            const dancerDanceVal = dancerDance.value;
+            const dancerPositionVal = dancerPosition.value;
+            const cameraAngleVal = cameraAngle.value;
+            const tableTextVal = tableText.value;
+            const backgroundDescriptionVal = backgroundDescription.value || 'panggung klub malam yang ramai dengan lampu disko';
+
+            // Indonesian Prompt
+            const dancersIDN = numDancersVal > 0 ? 
+                `serta ${numDancersVal} penari ${dancerGenderVal.toLowerCase()} di ${dancerPositionVal.toLowerCase()} dengan gaya tarian ${dancerDanceVal.toLowerCase()}` : 
+                'tanpa penari tambahan';
+            const promptIDN = `Buat video DJ uang yang viral di TikTok. DJ adalah seorang ${djGenderVal.toLowerCase()} dengan ${djHairVal.toLowerCase()}, mengenakan ${djClothesVal.toLowerCase()}. Di depan meja DJ, tertulis tulisan "${tableTextVal}". DJ tersebut ${djDanceVal.toLowerCase()} dengan irama musik. Peralatan DJ yang digunakan sangat lengkap: DJ controller Pioneer DDJ-1000, turntable Technics SL-1200, mixer Allen & Heath Xone:96, headphone Sennheiser HD 25, dan lampu disko yang berkedip. Kamera mengambil gambar dari ${cameraAngleVal.toLowerCase()}. DJ berada ${djPositionVal.toLowerCase()}, ${dancersIDN}. Latar belakangnya harus sangat identik dan sesuai dengan deskripsi ini: "${backgroundDescriptionVal}".`;
+
+            // English Prompt
+            const dancersEN = numDancersVal > 0 ?
+                `along with ${numDancersVal} ${dancerGenderVal.toLowerCase()} dancer(s) in ${dancerPositionVal.toLowerCase()} with a ${dancerDanceVal.toLowerCase()} dance style` :
+                'with no additional dancers';
+            const promptEN = `Create a viral TikTok DJ money video. The DJ is a ${djGenderVal.toLowerCase()} with ${djHairVal.toLowerCase()}, wearing a ${djClothesVal.toLowerCase()}. In front of the DJ table, the text "${tableTextVal}" is visible. The DJ is ${djDanceVal.toLowerCase()} to the music rhythm. The DJ equipment is very complete: Pioneer DDJ-1000 DJ controller, Technics SL-1200 turntable, Allen & Heath Xone:96 mixer, Sennheiser HD 25 headphones, and flashing disco lights. The camera shot is a ${cameraAngleVal.toLowerCase()}. The DJ is positioned ${djPositionVal.toLowerCase()}, ${dancersEN}. The background must be very identical and match this description: "${backgroundDescriptionVal}".`;
+
+            // JSON Prompt
+            const jsonPrompt = JSON.stringify({
+                video_type: "Viral TikTok DJ money video",
+                character: {
+                    dj: {
+                        gender: djGenderVal,
+                        clothing: djClothesVal,
+                        hair: djHairVal,
+                        dance_style: djDanceVal,
+                        position: djPositionVal,
+                    },
+                    dancers: {
+                        count: parseInt(numDancersVal, 10),
+                        gender: dancerGenderVal,
+                        dance_style: dancerDanceVal,
+                        position: dancerPositionVal,
+                    },
+                },
+                equipment: {
+                    table_text: tableTextVal,
+                    list: ["Pioneer DDJ-1000 DJ controller", "Technics SL-1200 turntable", "Allen & Heath Xone:96 mixer", "Sennheiser HD 25 headphones", "Flashing disco lights"],
+                },
+                camera: {
+                    angle: cameraAngleVal,
+                },
+                background: backgroundDescriptionVal,
+                note: 'This prompt is for generating a viral DJ video with high detail and a specified background identity.'
+            }, null, 2);
+
+            // Store and display the generated prompts
+            generatedPrompts = { idn: promptIDN, en: promptEN, json: jsonPrompt };
+            promptOutput.value = generatedPrompts[activeTab];
+            
+            // Hide placeholder and show tabs
+            placeholder.classList.add('hidden');
+            promptTabs.classList.remove('hidden');
+
+            // Reset button state
+            generateBtn.innerHTML = 'Buat Prompt Video!';
+            generateBtn.disabled = false;
+        }, 1000); // Simulate processing time
+    }
+});
+</script>
+
+</body>
+</html>

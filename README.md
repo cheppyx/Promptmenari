@@ -1,2 +1,0 @@
-# Promptmenari
-Prompt generator
